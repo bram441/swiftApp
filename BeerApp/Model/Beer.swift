@@ -20,5 +20,10 @@ struct Beer : Codable{
 }
 
 struct NewBeer: Codable {
-    
+    var naam: String
+    var alcoholpercentage : Double
+    var brouwer : String
+    var soort : String
+    var beschrijving : String
+    var inhoud : Int
 }
