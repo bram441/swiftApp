@@ -33,7 +33,7 @@ struct BeerListView : View {
                     }
                 }.onAppear(perform: viewModel.fetchBeers)
             }.searchable(text: $searchText)
-             .navigationTitle("Find beers")
+            .navigationTitle("Find beers").font(.system(size: 20))
         }
     
     var filterBeers : [Beer] {

@@ -25,8 +25,8 @@ struct FavoriteBeerView : View {
                     Button(action: viewModel.fetchBeers) {
                         Text("Retry")
                     }
-                }
-            }.navigationTitle("Beer of the month")
+                }.navigationTitle("Your favorite beers!")
+            }
         }.onAppear(perform: viewModel.fetchBeers)
     }
 }

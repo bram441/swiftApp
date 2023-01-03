@@ -48,11 +48,15 @@ class BeerListViewModel : ObservableObject {
     
     func filterBeers(searchText: String) -> [Beer] {
         var resultList : [Beer] = []
+        
         for beer in beers {
-           // if searchText.lowercased().localizedStandardContains(beer.naam.lowercased()) {
-             //   resultList.append(beer)
-            //}
-            if(beer.naam.localizedStandardContains(searchText.lowercased())) {
+            var searchTerm = beer.naam
+            if(searchText.lowercased().elementsEqual("blond") || searchText.lowercased().elementsEqual("bruin")) {
+                searchTerm = beer.soort
+            } else {
+                searchTerm = beer.naam
+            }
+            if(searchTerm.localizedStandardContains(searchText.lowercased())) {
                 resultList.append(beer)
             }
         }

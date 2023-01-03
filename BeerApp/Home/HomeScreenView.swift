@@ -6,29 +6,30 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct HomeScreenView: View {
     
     @StateObject private var viewModel = HomeScreenViewModel()
     
+    
     var body: some View {
-        ZStack {
-            NavigationView {
-                List {
-                    ForEach(viewModel.beers, id: \.id) { beer in
-                        BeerView(beer: beer).listRowSeparator(.hidden)
-                    }
+        NavigationView {
+            VStack(alignment: .center){
+                Button("Decide your next beer!", action: viewModel.getRandomBeer).frame(width: 493.0).foregroundColor(.blue).padding([.top, .leading, .trailing], 80)
+                    .bold()
+                    .font(.system(size: 35))
+                    
+                if(viewModel.randomBeer != nil) {
+                    Text("You next beer is here for you! Cheers").bold().font(.headline).padding(.vertical, 20.0)
+                    BeerView(beer: viewModel.randomBeer!)
                 }
-                .listStyle(.plain)
-                .alert(isPresented: $viewModel.hasError, error: viewModel.error) {
-                    Button(action: viewModel.fetchBeers) {
-                        Text("Retry")
-                    }
-                }
-            }.navigationTitle("Beer of the month")
-        }.onAppear(perform: viewModel.fetchBeers)
+                Spacer()
+            }.navigationTitle("Welcome!")
+        }.toast(isPresenting: $viewModel.succes) {
+            AlertToast(type: .regular, title: "Cheers!🍻")
+        }
     }
-
 }
 
 struct HomeScreenView_Previews: PreviewProvider {

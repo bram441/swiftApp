@@ -17,12 +17,12 @@ struct ContentView: View {
 
             AddBeerView()
                 .tabItem {
-                    Label("Add", systemImage: "🍻")
+                    Label("Add", systemImage: "plus.app.fill")
                 }
 
             BeerListView()
                 .tabItem {
-                    Label("Lists", systemImage: "book")
+                    Label("Search", systemImage: "magnifyingglass")
                 }
 
             FavoriteBeerView()

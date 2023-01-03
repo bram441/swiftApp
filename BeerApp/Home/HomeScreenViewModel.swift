@@ -10,16 +10,17 @@ import Foundation
 
 class HomeScreenViewModel : ObservableObject {
     
-    @Published var beers: [Beer] = []
     @Published var hasError = false
     @Published var error: BeerError?
+    @Published var randomBeer: Beer?
+    @Published var succes = false
     
-    func fetchBeers() {
+    func getRandomBeer() {
         
         hasError = false
         
-        let getAllBeersUrl = "https://swiftapi-production.up.railway.app/api/beer"
-        if let url = URL(string: getAllBeersUrl) {
+        let getRandoBeerUrl = "https://swiftapi-production.up.railway.app/api/beer/random"
+        if let url = URL(string: getRandoBeerUrl) {
             URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
                 
                 DispatchQueue.main.async {
@@ -27,17 +28,19 @@ class HomeScreenViewModel : ObservableObject {
                     if let error = error {
                         self?.hasError = true
                         self?.error = BeerError.custom(error: error)
-                        print(error)
+                        self?.succes = false
                     } else {
                         let decoder = JSONDecoder()
                         
                         if let data = data {
                             do {
-                                let beers = try decoder.decode([Beer].self, from:data)
-                                self?.beers = beers
+                                let randomBeer = try decoder.decode([Beer].self, from:data)
+                                self?.randomBeer = randomBeer[0]
+                                self?.succes = true
                             } catch(let error) {
                                 self?.hasError = true
                                 self?.error = BeerError.failedToDecode
+                                self?.succes = false
                                 print(error)
                             }
                         }
